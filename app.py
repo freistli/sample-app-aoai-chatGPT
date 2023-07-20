@@ -81,7 +81,7 @@ def prepare_body_headers_with_data(request):
                     },
                     "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-                    "queryType": "true",
+                    "queryType": "semantic",
                     "semanticConfiguration": "default",
                     "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
                 }
