@@ -81,8 +81,8 @@ def prepare_body_headers_with_data(request):
                     },
                     "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-                    #"queryType": "semantic" if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" else "simple",
-                    #"semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
+                    "queryType": "true",
+                    "semanticConfiguration": "default",
                     "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
                 }
             }
@@ -149,7 +149,7 @@ def stream_with_data(body, headers, endpoint):
 
 def conversation_with_data(request):
     body, headers = prepare_body_headers_with_data(request)
-    endpoint = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}/extensions/chat/completions?semanticConfiguration=default&queryType=semantic&api-version={AZURE_OPENAI_PREVIEW_API_VERSION}"
+    endpoint = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}/extensions/chat/completions?api-version={AZURE_OPENAI_PREVIEW_API_VERSION}"
     
     if not SHOULD_STREAM:
         r = requests.post(endpoint, headers=headers, json=body)
