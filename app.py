@@ -1,6 +1,7 @@
 import json
 import os
 import logging
+from opencensus.ext.azure.log_exporter import AzureLogHandler
 import requests
 import openai
 from flask import Flask, Response, request, jsonify
@@ -9,6 +10,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+#logger = logging.getLogger(__name__)
+#logger.addHandler(AzureLogHandler())
 
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
@@ -55,7 +58,7 @@ def should_use_data():
 
 def prepare_body_headers_with_data(request):
     request_messages = request.json["messages"]
-
+    #logger.log(logging.INFO, f"Request messages: {request_messages}")
     body = {
         "messages": request_messages,
         "temperature": float(AZURE_OPENAI_TEMPERATURE),
@@ -78,8 +81,8 @@ def prepare_body_headers_with_data(request):
                     },
                     "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-                    "queryType": "semantic" if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" else "simple",
-                    "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
+                    #"queryType": "semantic" if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" else "simple",
+                    #"semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
                     "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
                 }
             }
@@ -146,7 +149,7 @@ def stream_with_data(body, headers, endpoint):
 
 def conversation_with_data(request):
     body, headers = prepare_body_headers_with_data(request)
-    endpoint = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}/extensions/chat/completions?api-version={AZURE_OPENAI_PREVIEW_API_VERSION}"
+    endpoint = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}/extensions/chat/completions?semanticConfiguration=default&queryType=semantic&api-version={AZURE_OPENAI_PREVIEW_API_VERSION}"
     
     if not SHOULD_STREAM:
         r = requests.post(endpoint, headers=headers, json=body)
