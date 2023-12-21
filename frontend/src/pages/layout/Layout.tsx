@@ -46,7 +46,7 @@ const Layout = () => {
                             aria-hidden="true"
                         />
                         <Link to="/" className={styles.headerTitleContainer}>
-                            <h1 className={styles.headerTitle}>Copilot EAP</h1>
+                            <h1 className={styles.headerTitle}>M365 Copilot Field FAQ</h1>
                         </Link>
                         <div className={styles.AddFactsButtonContainer} role="button" tabIndex={0} aria-label="AddFacts" onClick={handleAddFactsClick} >
                             <ShareRegular className={styles.shareButton} />
