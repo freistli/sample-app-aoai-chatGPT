@@ -1,7 +1,6 @@
 import json
 import os
 import logging
-from opencensus.ext.azure.log_exporter import AzureLogHandler
 import requests
 import openai
 import copy
