@@ -15,13 +15,7 @@ from backend.history.cosmosdbservice import CosmosConversationClient
 
 load_dotenv()
 
-<<<<<<< HEAD
-app = Flask(__name__)
-#logger = logging.getLogger(__name__)
-#logger.addHandler(AzureLogHandler())
-=======
 app = Flask(__name__, static_folder="static")
->>>>>>> main
 
 # Static Files
 @app.route("/")
@@ -259,10 +253,6 @@ def prepare_body_headers_with_data(request):
                     },
                     "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-<<<<<<< HEAD
-                    "queryType": "semantic",
-                    "semanticConfiguration": "default",
-=======
                     "queryType": query_type,
                     "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
                     "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE,
@@ -293,7 +283,6 @@ def prepare_body_headers_with_data(request):
                     "topNDocuments": AZURE_COSMOSDB_MONGO_VCORE_TOP_K,
                     "strictness": int(AZURE_COSMOSDB_MONGO_VCORE_STRICTNESS),
                     "queryType": query_type,
->>>>>>> main
                     "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
                 }
             }

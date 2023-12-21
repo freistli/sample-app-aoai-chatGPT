@@ -43,18 +43,11 @@ const Layout = () => {
         setIsSharePanelOpen(true);
     };
 
-<<<<<<< HEAD
-=======
     
->>>>>>> main
     const handleAddFactsClick = () => {
         window.open('https://forms.office.com/r/ZF6U7g8Egx', '_blank');
     };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
     const handleSharePanelDismiss = () => {
         setIsSharePanelOpen(false);
         setCopyClicked(false);
@@ -91,21 +84,8 @@ const Layout = () => {
                             aria-hidden="true"
                         />
                         <Link to="/" className={styles.headerTitleContainer}>
-<<<<<<< HEAD
-                            <h1 className={styles.headerTitle}>M365 Copilot Field FAQ</h1>
-                        </Link>
-                        <div className={styles.AddFactsButtonContainer} role="button" tabIndex={0} aria-label="AddFacts" onClick={handleAddFactsClick} >
-                            <ShareRegular className={styles.shareButton} />
-                            <span className={styles.shareButtonText}>Add Facts</span>
-                        </div>
-                        <div className={styles.shareButtonContainer} role="button" tabIndex={0} aria-label="Share" onClick={handleShareClick} onKeyDown={e => e.key === "Enter" || e.key === " " ? handleShareClick() : null}>
-                            <ShareRegular className={styles.shareButton} />
-                            <span className={styles.shareButtonText}>Share</span>
-                        </div>
-=======
                             <h1 className={styles.headerTitle}>M365 Copilot Field FAQ - 12/21/2023</h1>
                         </Link>
->>>>>>> main
                     </Stack>
                     <Stack horizontal tokens={{ childrenGap: 4 }}>
                             {(appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && 
