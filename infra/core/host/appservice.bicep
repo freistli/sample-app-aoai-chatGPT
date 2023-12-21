@@ -25,6 +25,7 @@ param alwaysOn bool = true
 param appCommandLine string = ''
 param appSettings object = {}
 param authClientId string
+@secure()
 param authClientSecret string
 param authIssuerUri string
 param clientAffinityEnabled bool = false
@@ -75,7 +76,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
       !empty(applicationInsightsName) ? { APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.properties.ConnectionString } : {},
       !empty(keyVaultName) ? { AZURE_KEY_VAULT_ENDPOINT: keyVault.properties.vaultUri } : {},
       !empty(authClientSecret) ? { AUTH_CLIENT_SECRET: authClientSecret } : {}
-      )
+    )
   }
 
   resource configLogs 'config' = {
@@ -90,7 +91,6 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
       configAppSettings
     ]
   }
-
 
   resource configAuth 'config' = if (!(empty(authClientId))) {
     name: 'authsettingsV2'
@@ -107,6 +107,11 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
             clientId: authClientId
             clientSecretSettingName: 'AUTH_CLIENT_SECRET'
             openIdIssuer: authIssuerUri
+          }
+          validation: {
+            defaultAuthorizationPolicy: {
+              allowedApplications: []
+            }
           }
         }
       }
